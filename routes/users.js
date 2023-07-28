@@ -7,9 +7,9 @@ const {
   dataOfUserAvatar,
 } = require('../controllers/users');
 
-router.get('/', createUser);
+router.get('/', getUsers);
 router.get('/:userId', getUserById);
-router.post('/', getUsers);
+router.post('/', createUser);
 router.patch('/me', dataOfUser);
 router.patch('/me/avatar', dataOfUserAvatar);
 
