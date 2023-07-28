@@ -1,6 +1,27 @@
 [![Tests](../../actions/workflows/tests-13-sprint.yml/badge.svg)](../../actions/workflows/tests-13-sprint.yml) [![Tests](../../actions/workflows/tests-14-sprint.yml/badge.svg)](../../actions/workflows/tests-14-sprint.yml)
 # Проект Mesto фронтенд + бэкенд
 
+## Описание
+
+Данный проект выполнен в ходе обучения на курсе от Яндекс.Практикум "Веб-разработчик" в рамках выполнения проектной работы №10.
+
+### Цели
+* Закрепить знания, полученные на предыдущих спринтах;
+* Изучить расширенные возможности GIT;
+* Применить на практике знания об адаптивной верстке;
+* Применить полученные знания о JavaScript на практике;
+
+### Ссылки
+
+Ниже указаны полезные ссылки, которые применялись в ходе выполнения проекта
+
+* [Ссылка на валидатор HTML](https://validator.w3.org/nu/)
+* [Ссылка на валидотор БЭМ](https://nglazov.github.io/bem-validator-page/)
+* [Ссылка на бесплатные шрифты](https://fonts.google.com/?query=Inter)
+
+Ниже указана ссылка на GitHub Pages
+
+* [Место ©2023. Копченов Михаил Викторович](https://michaelkopchenov.github.io/express-mesto-gha/)
 
 ## Директории
 
