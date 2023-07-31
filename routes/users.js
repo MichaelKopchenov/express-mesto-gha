@@ -1,16 +1,12 @@
 const router = require('express').Router();
 const {
-  createUser,
-  getUserById,
-  getUsers,
-  dataOfUser,
-  dataOfUserAvatar,
+  getUsers, getUserById, dataOfUser, editdataOfUser, editdataOfUserAvatar,
 } = require('../controllers/users');
 
 router.get('/', getUsers);
 router.get('/:userId', getUserById);
-router.post('/', createUser);
-router.patch('/me', dataOfUser);
-router.patch('/me/avatar', dataOfUserAvatar);
+router.post('/', dataOfUser);
+router.patch('/me', editdataOfUser);
+router.patch('/me/avatar', editdataOfUserAvatar);
 
 module.exports = router;
