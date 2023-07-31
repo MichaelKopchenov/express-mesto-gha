@@ -9,13 +9,13 @@ const userSchema = new mongoose.Schema({
   },
   about: {
     type: String,
-    required: [true, 'Поле "about" должно быть заполнено'],
-    minlength: [2, 'Минимальная длина поля "about" - 2'],
-    maxlength: [30, 'Максимальная длина поля "about" - 30'],
+    required: [true, 'Поле должно быть заполнено'],
+    minlength: [2, 'Минимальная длина поля - 2'],
+    maxlength: [30, 'Максимальная длина поля - 30'],
   },
   avatar: {
     type: String,
-    required: [true, 'Поле "avatar" должно быть заполнено'],
+    required: [true, 'Поле должно быть заполнено'],
     validate: {
       validator(v) {
         return /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_+.~#?&/=]*)$/.test(v);
@@ -23,6 +23,6 @@ const userSchema = new mongoose.Schema({
       message: 'Введите URL',
     },
   },
-}, { versionKey: false });
+});
 
 module.exports = mongoose.model('user', userSchema);
