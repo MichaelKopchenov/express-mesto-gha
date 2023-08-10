@@ -1,6 +1,6 @@
 const { ValidationError, CastError, DocumentNotFoundError } = require('mongoose').Error;
+const { HTTP_STATUS_OK } = require('http2').constants;
 const Card = require('../models/card');
-const { STATUS_OK } = require('../errors/StatusOk');
 const BadRequestError = require('../errors/BadRequestError');
 const NotFoundError = require('../errors/NotFoundError');
 const ForbiddenError = require('../errors/ForbiddenError');
@@ -17,7 +17,7 @@ module.exports.createCard = (req, res, next) => {
         .orFail()
         .populate('owner')
         .then((data) => res
-          .status(STATUS_OK)
+          .status(HTTP_STATUS_OK)
           .send(data))
         .catch((err) => {
           if (err instanceof DocumentNotFoundError) {
@@ -40,7 +40,7 @@ module.exports.getCards = (req, res, next) => {
   Card.find({})
     .populate(['owner', 'likes'])
     .then((cards) => res
-      .status(STATUS_OK)
+      .status(HTTP_STATUS_OK)
       .send(cards))
     .catch(next);
 };
@@ -55,7 +55,7 @@ module.exports.deleteCard = (req, res, next) => {
         .orFail()
         .then(() => {
           res
-            .status(STATUS_OK)
+            .status(HTTP_STATUS_OK)
             .send({ message: 'Карточка удалена' });
         })
         .catch((err) => {
@@ -87,7 +87,7 @@ module.exports.putLike = (req, res, next) => {
     .populate(['owner', 'likes'])
     .then((card) => {
       res
-        .status(STATUS_OK)
+        .status(HTTP_STATUS_OK)
         .send(card);
     })
     .catch((err) => {
@@ -111,7 +111,7 @@ module.exports.unputLike = (req, res, next) => {
     .populate(['owner', 'likes'])
     .then((card) => {
       res
-        .status(STATUS_OK)
+        .status(HTTP_STATUS_OK)
         .send(card);
     })
     .catch((err) => {
