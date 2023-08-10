@@ -1,6 +1,8 @@
-module.exports = class UNAUTHORIZED_ERROR extends Error {
+const { HTTP_STATUS_UNAUTHORIZED } = require('http2').constants;
+
+module.exports = class NotfoundError extends Error {
   constructor(message) {
     super(message);
-    this.statusCode = 401;
+    this.statusCode = HTTP_STATUS_UNAUTHORIZED;
   }
 };

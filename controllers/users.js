@@ -1,3 +1,4 @@
+const { HTTP_STATUS_OK } = require('http2').constants;
 const {
   ValidationError,
   CastError,
@@ -6,10 +7,9 @@ const {
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-const { STATUS_OK } = require('../errors/StatusOk');
-const { CONFLICT_ERROR } = require('../errors/ConflictError');
-const { BAD_REQUEST_ERROR } = require('../errors/BadRequestError');
-const { NOT_FOUND_ERROR } = require('../errors/NotFoundError');
+const BadRequestError = require('../errors/BadRequestError');
+const NotFoundError = require('../errors/NotFoundError');
+const ConflictError = require('../errors/ConflictError');
 
 module.exports.createUser = (req, res, next) => {
   const {
@@ -30,7 +30,7 @@ module.exports.createUser = (req, res, next) => {
     }))
     .then((user) => {
       res
-        .status(STATUS_OK)
+        .status(HTTP_STATUS_OK)
         .send({
           name: user.name,
           about: user.about,
@@ -41,9 +41,9 @@ module.exports.createUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.code === 11000) {
-        next(new CONFLICT_ERROR(`Пользователь с email: ${email} уже зарегистрирован`));
+        next(new ConflictError(`Пользователь с email: ${email} уже зарегистрирован`));
       } else if (err instanceof ValidationError) {
-        next(new BAD_REQUEST_ERROR(err.message));
+        next(new BadRequestError(err.message));
       } else {
         next(err);
       }
@@ -70,9 +70,7 @@ module.exports.login = (req, res, next) => {
 
 module.exports.getUsers = (req, res, next) => {
   User.find({})
-    .then((users) => res
-      .status(STATUS_OK)
-      .send(users))
+    .then((users) => res.status(HTTP_STATUS_OK).send(users))
     .catch(next);
 };
 
@@ -81,14 +79,14 @@ module.exports.getUserById = (req, res, next) => {
     .orFail()
     .then((user) => {
       res
-        .status(STATUS_OK)
+        .status(HTTP_STATUS_OK)
         .send(user);
     })
     .catch((err) => {
       if (err instanceof CastError) {
-        next(new BAD_REQUEST_ERROR(`Некорректный _id: ${req.params.userId}`));
+        next(new BadRequestError(`Некорректный _id: ${req.params.userId}`));
       } else if (err instanceof DocumentNotFoundError) {
-        next(new NOT_FOUND_ERROR(`Пользователь по указанному _id: ${req.params.userId} не найден.`));
+        next(new NotFoundError(`Пользователь по указанному _id: ${req.params.userId} не найден.`));
       } else {
         next(err);
       }
@@ -98,7 +96,7 @@ module.exports.getUserById = (req, res, next) => {
 module.exports.dataOfUser = (req, res, next) => {
   User.findById(req.user._id)
     .then((users) => res
-      .status(STATUS_OK)
+      .status(HTTP_STATUS_OK)
       .send(users))
     .catch(next);
 };
@@ -113,13 +111,13 @@ module.exports.editdataOfUser = (req, res, next) => {
   )
     .orFail()
     .then((user) => res
-      .status(STATUS_OK)
+      .status(HTTP_STATUS_OK)
       .send(user))
     .catch((err) => {
       if (err instanceof ValidationError) {
-        next(new BAD_REQUEST_ERROR(err.message));
+        next(new BadRequestError(err.message));
       } else if (err instanceof DocumentNotFoundError) {
-        next(new NOT_FOUND_ERROR(`Пользователь по указанному _id: ${req.user._id} не найден.`));
+        next(new NotFoundError(`Пользователь по указанному _id: ${req.user._id} не найден.`));
       } else {
         next(err);
       }
@@ -136,13 +134,13 @@ module.exports.editdataOfUserAvatar = (req, res, next) => {
   )
     .orFail()
     .then((user) => res
-      .status(STATUS_OK)
+      .status(HTTP_STATUS_OK)
       .send(user))
     .catch((err) => {
       if (err instanceof ValidationError) {
-        next(new BAD_REQUEST_ERROR(err.message));
+        next(new BadRequestError(err.message));
       } else if (err instanceof DocumentNotFoundError) {
-        next(new NOT_FOUND_ERROR(`Пользователь по указанному _id: ${req.user._id} не найден.`));
+        next(new NotFoundError(`Пользователь по указанному _id: ${req.user._id} не найден.`));
       } else {
         next(err);
       }
