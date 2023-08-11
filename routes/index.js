@@ -3,7 +3,7 @@ const usersRouter = require('./users');
 const cardsRouter = require('./cards');
 const auth = require('../middlewares/auth');
 const NotFoundError = require('../errors/NotFoundError');
-const { createUser, login } = require('../controllers/users');
+const { createUser, login } = require('./users');
 
 router.use('/signup', createUser);
 router.use('/signin', login);
