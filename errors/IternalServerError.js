@@ -6,7 +6,7 @@ const IternalServerError = (err, req, res, next) => {
     .status(statusCode)
     .send({
       message: statusCode === HTTP_STATUS_INTERNAL_SERVER_ERROR
-        ? 'На сервере произошла ошибка'
+        ? 'Ошибка сервера'
         : message,
     });
   next();

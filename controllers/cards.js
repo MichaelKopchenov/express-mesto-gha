@@ -25,7 +25,7 @@ module.exports.createCard = (req, res, next) => {
           .send(data))
         .catch((err) => {
           if (err instanceof DocumentNotFoundError) {
-            next(new NotFoundError('Карточка с указанным _id не найдена.'));
+            next(new NotFoundError('Карточка не найдена.'));
           } else {
             next(err);
           }

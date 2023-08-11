@@ -27,16 +27,18 @@ module.exports.createUser = (req, res, next) => {
       email,
       password: hash,
     })
-      .then((user) => res.status(HTTP_STATUS_OK).send({
-        name: user.name,
-        about: user.about,
-        avatar: user.avatar,
-        _id: user._id,
-        email: user.email,
-      }))
+      .then((user) => res
+        .status(HTTP_STATUS_OK)
+        .send({
+          name: user.name,
+          about: user.about,
+          avatar: user.avatar,
+          email: user.email,
+          _id: user._id,
+        }))
       .catch((err) => {
         if (err.code === 11000) {
-          next(new ConflictError(`Пользователь с email: ${email} уже зарегистрирован`));
+          next(new ConflictError(`Такой email: ${email} уже зарегистрирован`));
         } else if (err instanceof ValidationError) {
           next(new BadRequestError(err.message));
         } else {
@@ -89,7 +91,7 @@ module.exports.getUserById = (req, res, next) => {
       if (err instanceof CastError) {
         next(new BadRequestError(`Некорректный _id: ${req.params.userId}`));
       } else if (err instanceof DocumentNotFoundError) {
-        next(new NotFoundError(`Пользователь по указанному _id: ${req.params.userId} не найден.`));
+        next(new NotFoundError(`Пользователь с _id: ${req.params.userId} не найден.`));
       } else {
         next(err);
       }
@@ -111,7 +113,7 @@ module.exports.editDataOfUser = (req, res, next) => {
       if (err instanceof ValidationError) {
         next(new BadRequestError(err.message));
       } else if (err instanceof DocumentNotFoundError) {
-        next(new NotFoundError(`Пользователь по указанному _id: ${req.user._id} не найден.`));
+        next(new NotFoundError(`Пользователь с _id: ${req.user._id} не найден.`));
       } else {
         next(err);
       }
@@ -132,7 +134,7 @@ module.exports.editDataOfUserAvatar = (req, res, next) => {
       if (err instanceof ValidationError) {
         next(new BadRequestError(err.message));
       } else if (err instanceof DocumentNotFoundError) {
-        next(new NotFoundError(`Пользователь по указанному _id: ${req.user._id} не найден.`));
+        next(new NotFoundError(`Пользователь с _id: ${req.user._id} не найден.`));
       } else {
         next(err);
       }
