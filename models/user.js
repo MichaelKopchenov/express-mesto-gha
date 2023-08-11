@@ -4,9 +4,7 @@ const isEmail = require('validator/lib/isEmail');
 const urlValidator = require('../utils/constants');
 const UnautorizedError = require('../errors/UnauthorizedError');
 
-const { Schema } = mongoose;
-
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
   name: {
     type: String,
     minlength: [2, 'Минимальная длина поля - 2'],

@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
 const urlValidator = require('../utils/constants');
 
-const { Schema } = mongoose;
-
-const cardSchema = new Schema({
+const cardSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, 'Поле должно быть заполнено'],
@@ -21,13 +19,13 @@ const cardSchema = new Schema({
     },
   },
   owner: {
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
     required: true,
   },
   likes: [
     {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'user',
       default: [],
     },
