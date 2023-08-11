@@ -1,9 +1,11 @@
+const { HTTP_STATUS_INTERNAL_SERVER_ERROR } = require('http2').constants;
+
 const IternalServerError = (err, req, res, next) => {
-  const { statusCode = 500, message } = err;
+  const { statusCode = HTTP_STATUS_INTERNAL_SERVER_ERROR, message } = err;
   res
     .status(statusCode)
     .send({
-      message: statusCode === 500
+      message: statusCode === HTTP_STATUS_INTERNAL_SERVER_ERROR
         ? 'На сервере произошла ошибка'
         : message,
     });
