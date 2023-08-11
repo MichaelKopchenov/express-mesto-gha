@@ -8,7 +8,7 @@ const { Schema } = mongoose;
 const userSchema = new Schema({
   name: {
     type: String,
-    minlength: [7, 'Минимальная длина поля - 2'],
+    minlength: [2, 'Минимальная длина поля - 2'],
     maxlength: [30, 'Максимальная длина поля - 30'],
     default: 'Жак-Ив Кусто',
   },
