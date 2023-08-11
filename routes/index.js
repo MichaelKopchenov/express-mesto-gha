@@ -1,6 +1,10 @@
 const router = require('express').Router();
 const auth = require('../middlewares/auth');
 const NotFoundError = require('../errors/NotFoundError');
+const { login, createUser } = require('../controllers/users');
+
+router.use('/signup', createUser);
+router.use('/signin', login);
 
 router.use(auth);
 
