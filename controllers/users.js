@@ -1,9 +1,5 @@
 const { HTTP_STATUS_OK } = require('http2').constants;
-const {
-  ValidationError,
-  CastError,
-  DocumentNotFoundError,
-} = require('mongoose').Error;
+const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
@@ -39,7 +35,7 @@ module.exports.createUser = (req, res, next) => {
       .catch((err) => {
         if (err.code === 11000) {
           next(new ConflictError(`Пользователь с email: ${email} уже зарегистрирован`));
-        } else if (err instanceof ValidationError) {
+        } else if (err instanceof mongoose.Error.ValidationError) {
           next(new BadRequestError(err.message));
         } else {
           next(err);
@@ -88,9 +84,9 @@ module.exports.getUserById = (req, res, next) => {
         .send(user);
     })
     .catch((err) => {
-      if (err instanceof CastError) {
+      if (err instanceof mongoose.Error.CastError) {
         next(new BadRequestError(`Некорректный _id: ${req.params.userId}`));
-      } else if (err instanceof DocumentNotFoundError) {
+      } else if (err instanceof mongoose.Error.DocumentNotFoundError) {
         next(new NotFoundError(`Пользователь по указанному _id: ${req.params.userId} не найден.`));
       } else {
         next(err);
@@ -108,9 +104,9 @@ module.exports.editDataOfUser = (req, res, next) => {
     .orFail()
     .then((user) => res.status(HTTP_STATUS_OK).send(user))
     .catch((err) => {
-      if (err instanceof ValidationError) {
+      if (err instanceof mongoose.Error.ValidationError) {
         next(new BadRequestError(err.message));
-      } else if (err instanceof DocumentNotFoundError) {
+      } else if (err instanceof mongoose.Error.DocumentNotFoundError) {
         next(new NotFoundError(`Пользователь по указанному _id: ${req.user._id} не найден.`));
       } else {
         next(err);
@@ -129,9 +125,9 @@ module.exports.editDataOfUserAvatar = (req, res, next) => {
       .status(HTTP_STATUS_OK)
       .send(user))
     .catch((err) => {
-      if (err instanceof ValidationError) {
+      if (err instanceof mongoose.Error.ValidationError) {
         next(new BadRequestError(err.message));
-      } else if (err instanceof DocumentNotFoundError) {
+      } else if (err instanceof mongoose.Error.DocumentNotFoundError) {
         next(new NotFoundError(`Пользователь по указанному _id: ${req.user._id} не найден.`));
       } else {
         next(err);
