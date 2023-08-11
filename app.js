@@ -16,7 +16,10 @@ app.use(limiter);
 
 app.use(helmet());
 
-mongoose.connect(DATABASE);
+mongoose.connect(DATABASE, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 app.use('/', require('./routes/index'));
 
