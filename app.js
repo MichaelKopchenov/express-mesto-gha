@@ -5,13 +5,13 @@ const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 const InternalServerError = require('./errors/IternalServerError');
-const { createUsers, login } = require('./controllers/users');
+const { createUser, login } = require('./controllers/users');
 
 const { PORT = 3000, DATABASE = 'mongodb://127.0.0.1:27017/mestodb' } = process.env;
 const app = express();
 
 app.post('/signin', login);
-app.post('/signup', createUsers);
+app.post('/signup', createUser);
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
