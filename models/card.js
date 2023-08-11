@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
-const urlValidator = require('../utils/constants');
+const urlRegex = require('../utils/constants');
 
-const { Schema } = mongoose;
-
-const cardSchema = new Schema({
+const cardSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, 'Поле должно быть заполнено'],
@@ -15,19 +13,19 @@ const cardSchema = new Schema({
     required: [true, 'Поле должно быть заполнено'],
     validate: {
       validator(v) {
-        return urlValidator.test(v);
+        return urlRegex.test(v);
       },
-      message: 'Нужен URL-адрес',
+      message: 'Введите URL',
     },
   },
   owner: {
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
     required: true,
   },
   likes: [
     {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'user',
       default: [],
     },
@@ -36,6 +34,6 @@ const cardSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-});
+}, { versionKey: false });
 
 module.exports = mongoose.model('card', cardSchema);
