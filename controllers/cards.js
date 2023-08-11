@@ -1,5 +1,5 @@
-const { ValidationError, CastError, DocumentNotFoundError } = require('mongoose').Error;
 const { HTTP_STATUS_OK } = require('http2').constants;
+const { ValidationError, CastError, DocumentNotFoundError } = require('mongoose').Error;
 const Card = require('../models/card');
 const BadRequestError = require('../errors/BadRequestError');
 const NotFoundError = require('../errors/NotFoundError');
