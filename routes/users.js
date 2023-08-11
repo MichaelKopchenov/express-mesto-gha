@@ -1,8 +1,12 @@
 const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
-const urlRegex = require('../utils/constants');
+const urlValidator = require('../utils/constants');
 const {
-  getUsers, getUserById, editDataOfUser, editDataOfUserAvatar, dataOfUser,
+  getUsers,
+  getUserById,
+  editDataOfUser,
+  editDataOfUserAvatar,
+  dataOfUser,
 } = require('../controllers/users');
 
 router.get('/', getUsers);
@@ -10,22 +14,40 @@ router.get('/', getUsers);
 router.get('/me', dataOfUser);
 
 router.get('/:userId', celebrate({
-  params: Joi.object().keys({
-    userId: Joi.string().length(24).hex().required(),
-  }),
+  params: Joi
+    .object()
+    .keys({
+      userId: Joi
+        .string()
+        .length(24)
+        .hex()
+        .required(),
+    }),
 }), getUserById);
 
 router.patch('/me', celebrate({
-  body: Joi.object().keys({
-    name: Joi.string().min(2).max(30),
-    about: Joi.string().min(2).max(30),
-  }),
+  body: Joi
+    .object()
+    .keys({
+      name: Joi
+        .string()
+        .min(2)
+        .max(30),
+      about: Joi
+        .string()
+        .min(2)
+        .max(30),
+    }),
 }), editDataOfUser);
 
 router.patch('/me/avatar', celebrate({
-  body: Joi.object().keys({
-    avatar: Joi.string().pattern(urlRegex),
-  }),
+  body: Joi
+    .object()
+    .keys({
+      avatar: Joi
+        .string()
+        .pattern(urlValidator),
+    }),
 }), editDataOfUserAvatar);
 
 module.exports = router;
