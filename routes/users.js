@@ -7,6 +7,8 @@ const {
   editDataOfUser,
   editDataOfUserAvatar,
   dataOfUser,
+  createUser,
+  login,
 } = require('../controllers/users');
 
 router.get('/', getUsers);
@@ -49,5 +51,44 @@ router.patch('/me/avatar', celebrate({
         .pattern(urlValidator),
     }),
 }), editDataOfUserAvatar);
+
+router.post('/signup', celebrate({
+  body: Joi
+    .object()
+    .keys({
+      name: Joi
+        .string()
+        .min(2)
+        .max(30),
+      about: Joi
+        .string()
+        .min(2)
+        .max(30),
+      avatar: Joi
+        .string()
+        .pattern(urlValidator),
+      email: Joi
+        .string()
+        .required()
+        .email(),
+      password: Joi
+        .string()
+        .required(),
+    }).unknown(true),
+}), createUser);
+
+router.post('/signin', celebrate({
+  body: Joi
+    .object()
+    .keys({
+      email: Joi
+        .string()
+        .required()
+        .email(),
+      password: Joi
+        .string()
+        .required(),
+    }),
+}), login);
 
 module.exports = router;
