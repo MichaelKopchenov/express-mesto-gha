@@ -1,10 +1,12 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const validator = require('validator');
+const isEmail = require('validator/lib/isEmail');
+const urlValidator = require('../utils/constants');
 const UnautorizedError = require('../errors/UnauthorizedError');
-const urlRegex = require('../utils/constants');
 
-const userSchema = new mongoose.Schema({
+const { Schema } = mongoose;
+
+const userSchema = new Schema({
   name: {
     type: String,
     minlength: [2, 'Минимальная длина поля - 2'],
@@ -21,7 +23,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     validate: {
       validator(v) {
-        return urlRegex.test(v);
+        return urlValidator.test(v);
       },
       message: 'Введите URL',
     },
@@ -32,10 +34,8 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Поле должно быть заполнено'],
     unique: true,
     validate: {
-      validator(email) {
-        validator.isEmail(email);
-      },
-      message: 'Введите верный email',
+      validator: (email) => isEmail(email),
+      message: 'Неправильный формат почты',
     },
   },
   password: {
@@ -43,7 +43,7 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Поле должно быть заполнено'],
     select: false,
   },
-}, { versionKey: false });
+});
 
 userSchema.statics.findUserByCredentials = function findUserByCredentials(email, password) {
   return this.findOne({ email })
