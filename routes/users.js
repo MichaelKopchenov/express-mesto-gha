@@ -14,22 +14,40 @@ router.get('/', getUsers);
 router.get('/me', dataOfUser);
 
 router.get('/:userId', celebrate({
-  params: Joi.object().keys({
-    userId: Joi.string().length(24).hex().required(),
-  }),
+  params: Joi
+    .object()
+    .keys({
+      userId: Joi
+        .string()
+        .length(24)
+        .hex()
+        .required(),
+    }),
 }), getUserById);
 
 router.patch('/me', celebrate({
-  body: Joi.object().keys({
-    name: Joi.string().min(2).max(30),
-    about: Joi.string().min(2).max(30),
-  }),
+  body: Joi
+    .object()
+    .keys({
+      name: Joi
+        .string()
+        .min(2)
+        .max(30),
+      about: Joi
+        .string()
+        .min(2)
+        .max(30),
+    }),
 }), editDataOfUser);
 
 router.patch('/me/avatar', celebrate({
-  body: Joi.object().keys({
-    avatar: Joi.string().pattern(urlValidator),
-  }),
+  body: Joi
+    .object()
+    .keys({
+      avatar: Joi
+        .string()
+        .pattern(urlValidator),
+    }),
 }), editDataOfUserAvatar);
 
 module.exports = router;
