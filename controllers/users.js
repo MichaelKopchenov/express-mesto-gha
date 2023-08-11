@@ -13,7 +13,7 @@ module.exports.getUsers = (req, res, next) => {
     .catch(next);
 };
 
-module.exports.getMeUser = (req, res, next) => {
+module.exports.dataOfUser = (req, res, next) => {
   User.findById(req.user._id)
     .then((users) => res.status(StatusOk).send(users))
     .catch(next);
@@ -36,7 +36,7 @@ module.exports.getUserById = (req, res, next) => {
     });
 };
 
-module.exports.editUserData = (req, res, next) => {
+module.exports.editDataOfUser = (req, res, next) => {
   const { name, about } = req.body;
   User.findByIdAndUpdate(req.user._id, { name, about }, { new: 'true', runValidators: true })
     .orFail()
@@ -52,7 +52,7 @@ module.exports.editUserData = (req, res, next) => {
     });
 };
 
-module.exports.editUserAvatar = (req, res, next) => {
+module.exports.editDataOfUserAvatar = (req, res, next) => {
   User.findByIdAndUpdate(req.user._id, { avatar: req.body.avatar }, { new: 'true', runValidators: true })
     .orFail()
     .then((user) => res.status(StatusOk).send(user))
@@ -67,7 +67,7 @@ module.exports.editUserAvatar = (req, res, next) => {
     });
 };
 
-module.exports.addUser = (req, res, next) => {
+module.exports.createUser = (req, res, next) => {
   const {
     name, about, avatar, email, password,
   } = req.body;
