@@ -3,15 +3,52 @@ const rateLimit = require('express-rate-limit');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
-const { errors } = require('celebrate');
+const { errors, celebrate, Joi } = require('celebrate');
+const urlValidator = require('./utils/constants');
 const InternalServerError = require('./errors/IternalServerError');
 const { createUser, login } = require('./controllers/users');
 
 const { PORT = 3000, DATABASE = 'mongodb://127.0.0.1:27017/mestodb' } = process.env;
 const app = express();
 
-app.post('/signin', login);
-app.post('/signup', createUser);
+app.post('/signup', celebrate({
+  body: Joi
+    .object()
+    .keys({
+      name: Joi
+        .string()
+        .min(2)
+        .max(30),
+      about: Joi
+        .string()
+        .min(2)
+        .max(30),
+      avatar: Joi
+        .string()
+        .pattern(urlValidator),
+      email: Joi
+        .string()
+        .required()
+        .email(),
+      password: Joi
+        .string()
+        .required(),
+    }).unknown(true),
+}), createUser);
+
+app.post('/signin', celebrate({
+  body: Joi
+    .object()
+    .keys({
+      email: Joi
+        .string()
+        .required()
+        .email(),
+      password: Joi
+        .string()
+        .required(),
+    }),
+}), login);
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
