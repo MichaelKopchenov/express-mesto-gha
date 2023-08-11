@@ -2,6 +2,7 @@ const express = require('express');
 const rateLimit = require('express-rate-limit');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
+const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 const InternalServerError = require('./errors/IternalServerError');
 
@@ -15,6 +16,9 @@ const limiter = rateLimit({
 app.use(limiter);
 
 app.use(helmet());
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 mongoose.connect(DATABASE);
 
